@@ -6,6 +6,7 @@ const expect      = require('chai').expect;
 const cors        = require('cors');
 require('dotenv').config();
 
+const mongoose = require('mongoose');
 const apiRoutes         = require('./routes/api.js');
 const fccTestingRoutes  = require('./routes/fcctesting.js');
 const runner            = require('./test-runner');
@@ -45,6 +46,9 @@ app.use(function(req, res, next) {
     .type('text')
     .send('Not Found');
 });
+
+const mongoURI = process.env['MONGO_URI'];
+mongoose.connect(mongoURI, { useNewUrlParser: true }).then(() => console.log('Connected to DB.'));
 
 //Start our server and tests!
 const listener = app.listen(process.env.PORT || 3000, function () {
